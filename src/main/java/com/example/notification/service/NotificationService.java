@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
-
+    @Autowired
+    private MessageSender messageSender;
+    
     public Notification createNotification(NotificationRequest notificationRequest) {
         Notification notification = Notification.builder()
                 .from(notificationRequest.getFrom())
@@ -21,6 +23,7 @@ public class NotificationService {
                 .type(notificationRequest.getType())
                 .status(NotificationStatus.PENDING)
                 .build();
+        messageSender.send("any message for while");
        return notificationRepository.insert(notification);
     }
 
